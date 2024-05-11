@@ -1,0 +1,10 @@
+version: '3'
+services:
+  python_app:
+    extends:
+      file: compose-base.yml
+      service: base_service
+    build: ./python_app
+    volumes:
+      - ./python_app:/app  # Mount your local code into the container
+      - ./data:/data

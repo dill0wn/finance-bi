@@ -1,0 +1,20 @@
+
+# Colors
+COLOR_ESC='\[\033['
+COLOR_END='m\]'
+COLOR_RESET="${COLOR_ESC}0${COLOR_END}"
+COLOR_GREEN="${COLOR_ESC}1;32${COLOR_END}"
+COLOR_RED="${COLOR_ESC}1;31${COLOR_END}"
+PSWIN="${COLOR_GREEN}:-]${COLOR_RESET}"
+PSFAIL="${COLOR_RED}:-[${COLOR_RESET}"
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+# export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ '
+# PS1="\u@\h \$((( \$? == 0 )) && echo \"${PSWIN}\" || echo \"${PSFAIL}\") ""]"']'
+# PS1="[ \w ]\n\u ]]"
+
+# username@hostname:~/path/to/cwd$ _
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+
+alias ls='ls -GF'
+alias ll="ls -GFlA" #adds these to other ls alias

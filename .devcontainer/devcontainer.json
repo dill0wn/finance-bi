@@ -1,0 +1,18 @@
+{
+    "name": "Python App",
+    "dockerComposeFile": "../docker-compose-python.yml",
+    "service": "python_app",
+    "workspaceFolder": "/app",
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                // Set *default* container specific settings.json values on container create.
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": ["ms-python.python"]
+        }
+    },
+
+}

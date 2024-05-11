@@ -1,0 +1,18 @@
+version: '3'
+services:
+  postgres:
+    extends:
+      file: compose-postgres.yml
+      service: postgres
+    container_name: postgres
+    networks:
+      - metanet1
+  python_app:
+    extends:
+      file: compose-python.yml
+      service: python_app
+    networks:
+      - metanet1
+networks:
+  metanet1:
+    driver: bridge

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    extends:
+      file: compose-base.yml
+      service: base_service
+    image: postgres:latest
+    hostname: "${PG_HOST:-postgres}"
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-postgres}"
+      POSTGRES_USER: "${POSTGRES_USER:-admin}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-admin}"
