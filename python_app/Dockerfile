@@ -13,7 +13,11 @@ COPY . /app
 # Set up basic shell settings
 COPY bashrc /root/.bashrc
 
-# Install dependencies
+# Install psycopg2 dependencies
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc
+
+# Install Python Packages
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Command to run the application

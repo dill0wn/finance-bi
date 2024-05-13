@@ -5,8 +5,11 @@ services:
       file: compose-base.yml
       service: base_service
     image: postgres:latest
-    hostname: "${PG_HOST:-postgres}"
+    hostname: "${PG_HOST}"
+    ports:
+      - "${PG_PORT}:${PG_PORT}"
     environment:
-      POSTGRES_DB: "${POSTGRES_DB:-postgres}"
-      POSTGRES_USER: "${POSTGRES_USER:-admin}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-admin}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    command: -p ${PG_PORT}
