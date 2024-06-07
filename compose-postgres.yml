@@ -1,15 +1,16 @@
-version: '3'
 services:
   postgres:
     extends:
       file: compose-base.yml
       service: base_service
     image: postgres:latest
-    hostname: "${PG_HOST}"
+    hostname: "${POSTGRES_HOST}"
     ports:
-      - "${PG_PORT}:${PG_PORT}"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-    command: -p ${PG_PORT}
+    command: -p ${POSTGRES_PORT}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

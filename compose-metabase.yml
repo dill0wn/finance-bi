@@ -1,24 +1,23 @@
-version: '3'
 services:
   metabase:
     extends:
       file: compose-base.yml
       service: base_service
     image: metabase/metabase:latest
-    hostname: "${MB_HOST:-metabase}"
+    hostname: "${METABASE_HOST:-metabase}"
     volumes:
     - /dev/urandom:/dev/random:ro
     ports:
-      - "${MB_PORT}:3000"
+      - "$METABASE_PORT:$METABASE_PORT"
     environment:
-      MB_DB_TYPE: "${MB_DB_TYPE:-postgres}"
-      MB_DB_HOST: "${PG_HOST:-postgres}"
-      MB_DB_PORT: "${PG_PORT:-5432}"
-      MB_DB_DBNAME: "${MB_DB_DBNAME:-metabaseappdb}"
-      MB_DB_USER: "${MB_DB_USER:-metabase}"
-      MB_DB_PASS: "${MB_DB_PASS:-mysecretpassword}"
+      METABASE_DB_TYPE: $METABASE_DB_TYPE
+      METABASE_DB_HOST: $POSTGRES_HOST
+      METABASE_DB_PORT: $POSTGRES_PORT
+      METABASE_DB_DBNAME: $METABASE_DB_DBNAME
+      METABASE_DB_USER: $METABASE_DB_USER
+      METABASE_DB_PASS: $METABASE_DB_PASS
     healthcheck:
-      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      test: curl --fail -I http://localhost:$METABASE_PORT/api/health || exit 1
       interval: 15s
       timeout: 5s
       retries: 5
