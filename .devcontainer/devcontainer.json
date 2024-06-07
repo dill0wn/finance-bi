@@ -1,7 +1,7 @@
 {
     "name": "Python App",
-    "dockerComposeFile": "../docker-compose-python.yml",
-    "service": "python_app",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "ronin",
     "workspaceFolder": "/app",
 
     "customizations": {

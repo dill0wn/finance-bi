@@ -1,6 +1,11 @@
-version: '3'
 services:
   metabase:
+    depends_on:
+      ronin:
+        condition: service_healthy
+        restart: true
+      postgres:
+        condition: service_started
     extends:
       file: compose-metabase.yml
       service: metabase
@@ -12,6 +17,15 @@ services:
       file: compose-postgres.yml
       service: postgres
     container_name: postgres
+    networks:
+      - metanet1
+  ronin:
+    depends_on:
+      - postgres
+    extends:
+      file: compose-python.yml
+      service: ronin
+    container_name: ronin
     networks:
       - metanet1
 networks:

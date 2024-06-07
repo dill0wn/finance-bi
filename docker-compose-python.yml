@@ -6,10 +6,10 @@ services:
     container_name: postgres
     networks:
       - metanet1
-  python_app:
+  ronin:
     extends:
       file: compose-python.yml
-      service: python_app
+      service: ronin
     networks:
       - metanet1
 networks:

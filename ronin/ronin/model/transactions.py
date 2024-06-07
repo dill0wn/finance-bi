@@ -2,9 +2,10 @@ from sqlalchemy import Column, Integer, MetaData, String, Date, Numeric, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import MONEY
 
-Base = declarative_base()
+from ronin.model.db import ModelBase
 
-class RawTransactions(Base):
+
+class RawTransactions(ModelBase):
     __tablename__ = 'raw_transactions'
 
     id = Column(Integer, index=True, primary_key=True)
@@ -18,39 +19,38 @@ class RawTransactions(Base):
     balance = Column(Numeric)  # Assuming MONEY is a numeric type
 
 
-def build_tables_orm(engine):
-    Base.metadata.create_all(engine, checkfirst=False)
+# class TablesHolder:
+#     # from configure_alexandria_tables()
+#     RawTransactions: Table
+
+# tables = TablesHolder()
 
 
-class TablesHolder:
-    # from configure_alexandria_tables()
-    RawTransactions: Table
+# def build_tables_core(engine):
+#     metadata = MetaData()
 
-tables = TablesHolder()
+#     # Define the table
+#     tables.RawTransactions = Table('raw_transactions', metadata,
+#         Column('id', Integer, index=True, primary_key=True),
+#         Column('source', String),
+#         Column('account', String),
+#         Column('date', Date),
+#         Column('description', String),
+#         Column('note', String),
+#         Column('check_number', String),
+#         Column('amount', MONEY),
+#         Column('balance', MONEY),
+#     )
 
-
-def build_tables_core(engine):
-    metadata = MetaData()
-
-    # Define the table
-    tables.RawTransactions = Table('raw_transactions', metadata,
-        Column('id', Integer, index=True, primary_key=True),
-        Column('source', String),
-        Column('account', String),
-        Column('date', Date),
-        Column('description', String),
-        Column('note', String),
-        Column('check_number', String),
-        Column('amount', MONEY),
-        Column('balance', MONEY),
-    )
-
-    # Create the table
-    metadata.create_all(engine, checkfirst=False)
+#     # Create the table
+#     metadata.create_all(engine, checkfirst=False)
 
 
 
 def generate_sql_create_table(df, table_name):
+    """
+    Unused...
+    """
     type_mapping = {
         'int64': 'INTEGER',
         'float64': 'REAL',

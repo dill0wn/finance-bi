@@ -4,12 +4,26 @@
 #
 #    pip-compile
 #
+blinker==1.8.2
+    # via flask
+click==8.1.7
+    # via flask
 defopt==6.4.0
     # via -r requirements.in
 docutils==0.21.2
     # via defopt
+flask==3.0.3
+    # via -r requirements.in
 greenlet==3.0.3
     # via sqlalchemy
+itsdangerous==2.2.0
+    # via flask
+jinja2==3.1.4
+    # via flask
+markupsafe==2.1.5
+    # via
+    #   jinja2
+    #   werkzeug
 numpy==1.26.4
     # via pandas
 pandas==2.2.2
@@ -35,3 +49,5 @@ typing-extensions==4.11.0
     # via sqlalchemy
 tzdata==2024.1
     # via pandas
+werkzeug==3.0.3
+    # via flask

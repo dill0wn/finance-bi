@@ -1,9 +1,13 @@
 services:
-  python_app:
+  ronin:
     extends:
       file: compose-base.yml
       service: base_service
-    build: ./python_app
+    build: ./ronin
+    environment:
+      HEALTHCHECK_PORT: "${HEALTHCHECK_PORT}"
+    ports:
+      - "${HEALTHCHECK_PORT}:${HEALTHCHECK_PORT}"
     volumes:
-      - ./python_app:/app  # Mount your local code into the container
+      - ./ronin:/app  # Mount your local code into the container
       - ./data:/data

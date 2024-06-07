@@ -4,13 +4,12 @@ import re
 import defopt
 import pandas as pd
 from psycopg2 import OperationalError
-from sqlalchemy import Integer, create_engine, Table, MetaData, Column, String, Date, Float, text, Index
 from sqlalchemy.dialects.postgresql import MONEY
 
-from model.transactions import build_tables_orm, tables, build_tables_core, RawTransactions, Base
-from utils.logging import getLogger
+from ronin.model.db import init_databases
+from ronin.utils.logging import getLogger
 
-log = getLogger()
+log = getLogger('ronin.scripts.ingest_transactions')
 
 
 CURRENCY_RE = re.compile('[^0-9\.-]')
@@ -19,17 +18,6 @@ def currency_converter(value):
     if amount is not None and value.startswith('('):
         return -amount
     return amount
-
-# Define the connection string
-db_user = os.environ.get("POSTGRES_USER")
-db_password = os.environ.get("POSTGRES_PASSWORD")
-db_port = os.environ.get("PG_PORT")
-db_host = os.environ.get("PG_HOST")
-db_name = os.environ.get("POSTGRES_DB")
-
-# db_string = f"postgresql://username:password@localhost:5432/mydatabase"
-db_string = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-
 
 
 def build_converters():
@@ -65,6 +53,7 @@ def read_csv(csv_file: str) -> pd.DataFrame:
 def execute(*,
             csv_file: str,
             csv_source: str = 'umcu-checking',
+            recreate: bool = True,
             verbose: bool = False):
 
     df = read_csv(csv_file)
@@ -72,18 +61,13 @@ def execute(*,
     df['source'] = csv_source
     
     # Create the database engine
-    engine_kwargs = dict()
+    engine_kwargs = dict(
+        recreate=recreate,
+    )
     if verbose:
         engine_kwargs['echo'] = 'debug'
 
-    engine = create_engine(db_string, **engine_kwargs)
-
-    with engine.connect() as conn:
-        with conn.begin():
-            conn.execute(text("DROP TABLE IF EXISTS raw_transactions CASCADE"))
-
-    # build_tables_orm(engine)
-    build_tables_core(engine)
+    engine = init_databases(**engine_kwargs)
 
     # Write the data from the DataFrame to the table
     df.to_sql('raw_transactions', engine, if_exists='append', index=False)
