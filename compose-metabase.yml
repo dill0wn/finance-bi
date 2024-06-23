@@ -10,12 +10,12 @@ services:
     ports:
       - "$METABASE_PORT:$METABASE_PORT"
     environment:
-      METABASE_DB_TYPE: $METABASE_DB_TYPE
-      METABASE_DB_HOST: $POSTGRES_HOST
-      METABASE_DB_PORT: $POSTGRES_PORT
-      METABASE_DB_DBNAME: $METABASE_DB_DBNAME
-      METABASE_DB_USER: $METABASE_DB_USER
-      METABASE_DB_PASS_FILE: /run/secrets/metabase_db_pass
+      MB_DB_TYPE: $METABASE_DB_TYPE
+      MB_DB_HOST: $POSTGRES_HOST
+      MB_DB_PORT: $POSTGRES_PORT
+      MB_DB_DBNAME: $METABASE_DB_DBNAME
+      MB_DB_USER: $METABASE_DB_USER
+      MB_DB_PASS_FILE: /run/secrets/metabase_db_pass
     healthcheck:
       test: curl --fail -I http://localhost:$METABASE_PORT/api/health || exit 1
       interval: 15s

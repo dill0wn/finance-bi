@@ -37,7 +37,6 @@ db_string = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}
 def init_databases(**engine_kwargs) -> Engine:
 
     recreate = engine_kwargs.pop('recreate', False)
-
     engine = create_engine(db_string, **engine_kwargs)
 
     init_metabase(engine)
