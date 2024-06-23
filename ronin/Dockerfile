@@ -8,22 +8,26 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
-COPY . /app
-
 # Set up basic shell settings
 COPY bashrc /root/.bashrc
 
+RUN apt-get update
+
 # Install psycopg2 and other dependencies
-RUN apt-get update \
-    && apt-get -y install libpq-dev gcc curl
+RUN apt-get -y install libpq-dev gcc curl
 
 # Install Python Packages
-RUN pip install --no-cache-dir -r requirements.txt
+COPY setup.py .
 RUN pip install -e .
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 HEALTHCHECK --interval=5m --timeout=3s \
             --start-period=45s --start-interval=2s \
-            CMD curl -f http://localhost:${HEALTHCHECK_PORT}/healthcheck || exit 1
+            CMD curl -f http://localhost:${RONIN_HEALTH_PORT}/healthcheck || exit 1
 
 # Command to run the application
 # CMD ["python", "app.py"]

@@ -9,9 +9,11 @@ from ronin.healthcheck import create_app
 from ronin.model.db import init_databases
 from ronin.utils.logging import getLogger
 
-HC_PORT = int(os.environ.get("HEALTHCHECK_PORT"))
+HC_PORT = int(os.environ.get("RONIN_HEALTH_PORT"))
 
 log = getLogger('ronin.main')
+
+
 
 flapp = None
 

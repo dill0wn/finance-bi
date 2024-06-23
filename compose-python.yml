@@ -4,10 +4,13 @@ services:
       file: compose-base.yml
       service: base_service
     build: ./ronin
-    environment:
-      HEALTHCHECK_PORT: "${HEALTHCHECK_PORT}"
     ports:
-      - "${HEALTHCHECK_PORT}:${HEALTHCHECK_PORT}"
+      - "${RONIN_HEALTH_PORT}:${RONIN_HEALTH_PORT}"
     volumes:
       - ./ronin:/app  # Mount your local code into the container
       - ./data:/data
+    # develop:
+    #   watch:
+    #     - path: ./ronin
+    #       action: sync+restart
+    #       target: /app

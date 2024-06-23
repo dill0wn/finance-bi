@@ -22,11 +22,12 @@ ModelBase = declarative_base()
 metadata: MetaData = ModelBase.metadata
 
 # Define the connection string
-db_user = os.environ.get("POSTGRES_USER")
-db_password = os.environ.get("POSTGRES_PASSWORD")
-db_port = int(os.environ.get("POSTGRES_PORT"))
 db_host = os.environ.get("POSTGRES_HOST")
-db_name = os.environ.get("POSTGRES_DB")
+db_port = int(os.environ.get("POSTGRES_PORT"))
+
+db_user = os.environ.get("APP_DB_USER")
+db_password = os.environ.get("APP_DB_PASS")
+db_name = os.environ.get("APP_DB")
 
 # db_string = f"postgresql://username:password@localhost:5432/mydatabase"
 db_string = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"

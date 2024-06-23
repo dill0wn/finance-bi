@@ -6,7 +6,7 @@ from flask import Flask, jsonify
 
 from ronin.utils.logging import getLogger
 
-HC_PORT = int(os.environ.get("HEALTHCHECK_PORT"))
+HC_PORT = int(os.environ.get("RONIN_HEALTH_PORT"))
 
 log = getLogger('ronin.model.healthcheck')
 

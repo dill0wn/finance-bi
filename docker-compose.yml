@@ -5,7 +5,7 @@ services:
         condition: service_healthy
         restart: true
       postgres:
-        condition: service_started
+        condition: service_healthy
     extends:
       file: compose-metabase.yml
       service: metabase
@@ -21,7 +21,8 @@ services:
       - metanet1
   ronin:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     extends:
       file: compose-python.yml
       service: ronin
