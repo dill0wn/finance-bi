@@ -8,7 +8,8 @@ import sqlalchemy.exc
 
 import psycopg2
 
-from ronin.utils.logging import getLogger
+from ronin.lib.logging import getLogger
+from ronin.lib.utils import read_secret
 
 
 log = getLogger('ronin.model.db')
@@ -26,10 +27,10 @@ db_host = os.environ.get("POSTGRES_HOST")
 db_port = int(os.environ.get("POSTGRES_PORT"))
 
 db_user = os.environ.get("APP_DB_USER")
-db_password = os.environ.get("APP_DB_PASS")
 db_name = os.environ.get("APP_DB")
 
-# db_string = f"postgresql://username:password@localhost:5432/mydatabase"
+db_password = read_secret('app_db_pass')
+
 db_string = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
 
@@ -61,7 +62,7 @@ def init_metabase(engine: Engine):
 
     metabase_db = os.environ.get("METABASE_DB_DBNAME")
     metabase_user = os.environ.get("METABASE_DB_USER")
-    metabase_pass = os.environ.get("METABASE_DB_PASS")
+    metabase_pass = read_secret('metabase_db_pass')
     
     @ignore_sql_errors(psycopg2.errors.DuplicateDatabase)
     def create_db():

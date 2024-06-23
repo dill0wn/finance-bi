@@ -1,7 +1,5 @@
 services:
   base_service:
     env_file:
-      - path: ".env"
+      - path: .env
         required: true
-      - path: ".env.local"
-        required: false

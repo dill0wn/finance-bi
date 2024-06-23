@@ -7,7 +7,7 @@ from psycopg2 import OperationalError
 from sqlalchemy.dialects.postgresql import MONEY
 
 from ronin.model.db import init_databases
-from ronin.utils.logging import getLogger
+from ronin.lib.logging import getLogger
 
 log = getLogger('ronin.scripts.ingest_transactions')
 
@@ -52,7 +52,7 @@ def read_csv(csv_file: str) -> pd.DataFrame:
 
 def execute(*,
             csv_file: str,
-            csv_source: str = 'umcu-checking',
+            csv_source: str,
             recreate: bool = True,
             verbose: bool = False):
 

@@ -15,9 +15,11 @@ services:
       METABASE_DB_PORT: $POSTGRES_PORT
       METABASE_DB_DBNAME: $METABASE_DB_DBNAME
       METABASE_DB_USER: $METABASE_DB_USER
-      METABASE_DB_PASS: $METABASE_DB_PASS
+      METABASE_DB_PASS_FILE: /run/secrets/metabase_db_pass
     healthcheck:
       test: curl --fail -I http://localhost:$METABASE_PORT/api/health || exit 1
       interval: 15s
       timeout: 5s
       retries: 5
+    secrets:
+      - metabase_db_pass

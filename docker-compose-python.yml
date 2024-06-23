@@ -15,3 +15,8 @@ services:
 networks:
   metanet1:
     driver: bridge
+secrets:
+  app_db_pass:
+    file: secrets/app_db_pass.txt
+  metabase_db_pass:
+    file: secrets/metabase_db_pass.txt

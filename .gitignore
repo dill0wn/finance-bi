@@ -2,3 +2,4 @@
 data/transactions/
 postgres-data/
 *.pyc
+secrets/

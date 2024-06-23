@@ -9,6 +9,9 @@ services:
     volumes:
       - ./ronin:/app  # Mount your local code into the container
       - ./data:/data
+    secrets:
+      - app_db_pass
+      - metabase_db_pass
     # develop:
     #   watch:
     #     - path: ./ronin

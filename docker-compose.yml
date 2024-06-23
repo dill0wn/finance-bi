@@ -1,17 +1,17 @@
 services:
   metabase:
-    depends_on:
-      ronin:
-        condition: service_healthy
-        restart: true
-      postgres:
-        condition: service_healthy
     extends:
       file: compose-metabase.yml
       service: metabase
     container_name: metabase
     networks:
       - metanet1
+    depends_on:
+      ronin:
+        condition: service_healthy
+        restart: true
+      postgres:
+        condition: service_healthy
   postgres:
     extends:
       file: compose-postgres.yml
@@ -20,15 +20,20 @@ services:
     networks:
       - metanet1
   ronin:
-    depends_on:
-      postgres:
-        condition: service_healthy
     extends:
       file: compose-python.yml
       service: ronin
     container_name: ronin
     networks:
       - metanet1
+    depends_on:
+      postgres:
+        condition: service_healthy
 networks:
   metanet1:
     driver: bridge
+secrets:
+  app_db_pass:
+    file: secrets/app_db_pass.txt
+  metabase_db_pass:
+    file: secrets/metabase_db_pass.txt
