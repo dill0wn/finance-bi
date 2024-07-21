@@ -32,6 +32,10 @@ pockets==0.9.1
     # via sphinxcontrib-napoleon
 psycopg2==2.9.9
     # via -r requirements.in
+py4j==0.10.9.7
+    # via pyspark
+pyspark==3.5.1
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via pandas
 pytz==2024.1

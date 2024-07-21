@@ -1,0 +1,9 @@
+services:
+  spark:
+    image: bitnami/spark:3.5  # Using Bitnami's Spark image for simplicity
+    # image: spark:3.5.1-java17-python3
+    # image: spark:python3
+
+    extends:
+      file: compose-base.yml
+      service: base_service

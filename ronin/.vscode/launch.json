@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--csv-file", "/data/transactions/TransactionHistory-05-10-2024-12-08-43.csv",
+                "--csv-file", "$SHARED_DATA_DIR/data/transactions/TransactionHistory-05-10-2024-12-08-43.csv",
             ]
         }
     ]

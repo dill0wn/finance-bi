@@ -5,10 +5,12 @@ services:
       service: base_service
     build: ./ronin
     ports:
+      - "${SPARK_WORKER_PORT}:${SPARK_WORKER_PORT}"
       - "${RONIN_HEALTH_PORT}:${RONIN_HEALTH_PORT}"
     volumes:
       - ./ronin:/app  # Mount your local code into the container
-      - ./data:/data
+      - ./data:$SHARED_DATA_DIR
+      - ./tmp/vscode-server:/root/.vscode-server
     secrets:
       - app_db_pass
       - metabase_db_pass

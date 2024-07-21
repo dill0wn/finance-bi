@@ -16,6 +16,10 @@ RUN apt-get update
 # Install psycopg2 and other dependencies
 RUN apt-get -y install libpq-dev gcc curl
 
+# Install Spark Dependencies
+RUN apt-get -y install default-jre-headless
+
+
 # Install Python Packages
 COPY setup.py .
 RUN pip install -e .

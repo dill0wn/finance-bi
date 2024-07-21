@@ -4,34 +4,80 @@ services:
       file: compose-metabase.yml
       service: metabase
     container_name: metabase
-    networks:
-      - metanet1
     depends_on:
       ronin:
         condition: service_healthy
         restart: true
       postgres:
         condition: service_healthy
+    profiles:
+      - bi
+
   postgres:
     extends:
       file: compose-postgres.yml
       service: postgres
     container_name: postgres
+
+  spark-master:
+    image: bitnami/spark:3.5
+    hostname: $SPARK_MASTER_HOST
+    ports:
+      - "8080:8080"  # Spark Web UI
+    volumes:
+      - ./ronin/ronin/spark/:/home/spark/ronin
+      - ./data/:$SHARED_DATA_DIR
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_MASTER_PORT=$SPARK_MASTER_PORT
+      - SPARK_WORKER_PORT=$SPARK_WORKER_PORT
+      - SHARED_DATA_DIR=$SHARED_DATA_DIR
+    profiles:
+      - etl
     networks:
-      - metanet1
+      default:
+        aliases:
+          - $SPARK_MASTER_HOST
+
+  spark-worker:
+    image: bitnami/spark:3.5
+    volumes:
+      # FIXME: ensure volume correctness and can be accessed from 
+      #   BOTH spark workers AND the python ronin app
+      - ./ronin/ronin/spark/:/home/spark/ronin
+      - ./data/:$SHARED_DATA_DIR
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
+      # - SPARK_WORKER_PORT=$SPARK_WORKER_PORT
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_USER=spark
+      - SHARED_DATA_DIR=$SHARED_DATA_DIR
+    profiles:
+      - etl
+
   ronin:
     extends:
       file: compose-python.yml
       service: ronin
     container_name: ronin
-    networks:
-      - metanet1
     depends_on:
       postgres:
         condition: service_healthy
-networks:
-  metanet1:
-    driver: bridge
+    environment:
+      - SHARED_DATA_DIR=$SHARED_DATA_DIR
+    profiles:
+      - etl
+
 secrets:
   app_db_pass:
     file: secrets/app_db_pass.txt

@@ -6,16 +6,13 @@ services:
     container_name: postgres
     networks:
       - metanet1
-  ronin:
-    extends:
-      file: compose-python.yml
-      service: ronin
-    networks:
-      - metanet1
   spark:
     extends:
       file: compose-spark.yml
       service: spark
+    depends_on:
+      postgres: 
+        condition: service_healthy
     networks:
       - metanet1
 networks:
@@ -25,4 +22,4 @@ secrets:
   app_db_pass:
     file: secrets/app_db_pass.txt
   metabase_db_pass:
-    file: secrets/metabase_db_pass.txt
+    file: secrets/metabase_db_pass.txta 
